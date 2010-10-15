@@ -40,19 +40,19 @@ window.onload = function(){
         },
         columns: {
             Page: {
-                dataField: 'page',
+                dataField: 'page_visited',
                 sortable: true,
                 width: 390
             },
             Unique: {
                 title: 'Unique Visitors',
-                dataField: 'uniqueVisitors',
+                dataField: 'unique_visits',
                 sortable: true,
                 width: 250
             },
             Total: {
                 title: 'Total Visits',
-                dataField: 'totalVisitors',
+                dataField: 'total_visits',
                 sortable: true,
                 width: 250
             }
@@ -74,8 +74,10 @@ window.onload = function(){
 
     function getStatsHandler(obj) {
         if(obj.success) {
+            var result = eval('(' + obj.response + ')');
             dataset.setData({
-                data:    eval('(' + obj.response + ')'),
+                data: result,
+                alwaysOnBottom: {page_visited: '<b>TOTAL:</b>'},
                 sortObj: {}
             });
         }else {

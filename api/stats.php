@@ -30,16 +30,23 @@
 
     $db = new SQLite3(DB_PATH . "hotlinks.db.sqlite");
 
-    $sql = "SELECT unique_visitors.page_visited AS page, unique_visits AS uniqueVisitors, total_visits AS totalVisitors
+    $sql = "SELECT unique_visitors.page_visited, unique_visits, total_visits
             FROM (SELECT page_visited, COUNT(client_ip) AS unique_visits FROM (SELECT page_visited, client_ip FROM visits" . $where . " GROUP BY page_visited, client_ip) GROUP BY page_visited) AS unique_visitors,
                  (SELECT page_visited, COUNT(client_ip) AS total_visits FROM visits" . $where . " GROUP BY page_visited) AS total_visitors
             WHERE unique_visitors.page_visited = total_visitors.page_visited";
 
     $result = $db->query($sql);
 
+    $resultArr = getAllRows($result);
+    $uniqueTotal = 0;
+    $visitTotal = 0;
+    foreach($resultArr as $key => $val) {
+        $uniqueTotal += $val['unique_visits'];
+        $visitTotal += $val['total_visits'];
+    }
+    array_push($resultArr, array("page_visited" => "<b>TOTAL:</b>", "unique_visits" => "<b>" . $uniqueTotal . "</b>", "total_visits" => "<b>" . $visitTotal . "</b>"));
 
-
-    echo json_encode(getAllRows($result));
+    echo json_encode($resultArr);
     
     function getAllRows($result) {
         $resultArr = array();
