@@ -10,7 +10,10 @@ var Kodiak = {
         2: "month",
         3: "year",
         4: "all"
-    };
+    },
+    defaultDateRange = 0,
+    updateInterval   = 15000,
+    refreshTimer;
 
 window.onload = function(){
     var divDateButtons = $('divTopBar').getElementsByTagName('div'),
@@ -56,7 +59,9 @@ window.onload = function(){
         }
     });
 
-    getStats(0);
+    dataset.sort({field: 'uniqueVisitors', dir: 'DESC'});
+
+    clickDateButton(defaultDateRange);
 
     function getStats(n) {
          ajax.request({
@@ -71,7 +76,7 @@ window.onload = function(){
         if(obj.success) {
             dataset.setData({
                 data:    eval('(' + obj.response + ')'),
-                sortObj: {field: 'uniqueVisitors', dir: 'DESC'}
+                sortObj: {}
             });
         }else {
             alert("There was an error retreiving stats.  Please try again later.");
@@ -89,6 +94,8 @@ window.onload = function(){
                 }
             }
             getStats(n);
+            clearInterval(refreshTimer);
+            refreshTimer = setInterval(function() {getStats(n);}, updateInterval);
         }
     }
 

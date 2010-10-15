@@ -11,7 +11,7 @@
     <body>
         <div id="divMainWrapper">
             <div id="divTopBar">
-                <div class="clsActiveDateBtn">Today</div>
+                <div>Today</div>
                 <div>This Week</div>
                 <div>This Month</div>
                 <div>This Year</div>
