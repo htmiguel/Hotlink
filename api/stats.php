@@ -28,7 +28,7 @@
         break;
     }
 
-    $db = new SQLite3(stripslashes(APP_PATH) . "hotlinks.db.sqlite");
+    $db = new SQLite3(DB_PATH . "hotlinks.db.sqlite");
 
     $sql = "SELECT unique_visitors.page_visited AS page, unique_visits AS uniqueVisitors, total_visits AS totalVisitors
             FROM (SELECT page_visited, COUNT(client_ip) AS unique_visits FROM (SELECT page_visited, client_ip FROM visits" . $where . " GROUP BY page_visited, client_ip) GROUP BY page_visited) AS unique_visitors,

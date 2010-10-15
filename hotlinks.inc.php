@@ -22,15 +22,13 @@
         $referringSite = "";
     }
 
-    $timestamp = date('c');
-
 
     /**********************************/
     /***STORE VISITOR INFO IN THE DB***/
     /**********************************/
 
     if($clientIP && $pageVisited) {
-        $db = new SQLite3(stripslashes(APP_PATH) . "hotlinks.db.sqlite");
+        $db = new SQLite3(DB_PATH . "hotlinks.db.sqlite");
         $db->exec("INSERT INTO visits (client_ip, page_visited, referring_site, timestamp) VALUES('" . $clientIP . "', '" . $pageVisited . "', '" . $referringSite . "', current_timestamp)");
     }
 ?>
