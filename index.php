@@ -17,6 +17,10 @@
                 <div>This Year</div>
                 <div>All</div>
             </div>
+            <select id="cmbStatType">
+                <option value="traffic" selected="selected">&nbsp;Traffic</option>
+                <option value="topReferring">&nbsp;Top Referring Sites</option>
+            </select>
             <div id="divGrid"></div>
         </div>
     </body>

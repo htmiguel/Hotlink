@@ -1,11 +1,12 @@
 body {
+    margin: 5px 0 0 0;
     font-family: Arial;
     color: #333;
 }
 
 #divMainWrapper {
     width: 940px;
-    height: 380px;
+    height: 375px;
     padding: 10px 5px 10px 5px;
     background-color: #ECEBDB;
     margin: 0 auto;
@@ -20,7 +21,7 @@ body {
 #divTopBar div {
     float: left;
     width: 178px;
-    height: 80px;
+    height: 70px;
     margin: 0 5px;
     color: #fff;
     background-color: #333;
@@ -28,7 +29,7 @@ body {
     font-size: 24px;
     font-weight: bold;
     text-align: center;
-    line-height: 80px;
+    line-height: 70px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
 }
@@ -43,11 +44,19 @@ body {
     background-color: #aaa !important;
 }
 
+#cmbStatType {
+    font-size: 20px;
+    line-height: 30px;
+    height: 30px;
+    width: 933px;
+    margin: 10px 0 0 3px;
+}
+
 #divGrid {
     overflow: auto;
     margin: 10px 5px 0 5px;
     background-color: #fff;
-    height: 270px;
+    height: 235px;
     padding: 10px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
