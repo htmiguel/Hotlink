@@ -7,10 +7,10 @@
     define("DB_PATH", "/var/www/hotlinks/");
 
 
-    /***********************************************************/
-    /***DEFINE THE FULL APP PATH.  BE SURE TO ESCAPE SLASHES!***/
-    /***********************************************************/
+    /**************************************************************************/
+    /***DEFINE THE APP PATH FROM WEBSERVER ROOT.  BE SURE TO ESCAPE SLASHES!***/
+    /**************************************************************************/
 
-    define("APP_PATH", "\/var\/www\/hotlinks\/");
+    define("APP_PATH", "");
 
 ?>
