@@ -11,20 +11,24 @@ var Kodiak = {
         3: "year",
         4: "all"
     },
-    defaultDateRange = 0,
-    updateInterval   = 15000,
+    defaultDateRangeIndex = 0,
+    defaultStatType       = "page_visited",
+    updateInterval        = 15000,
     refreshTimer;
 
 window.onload = function(){
     var divDateButtons = $('divTopBar').getElementsByTagName('div'),
+        cmbStatType = $('cmbStatType'),
         n,
+        curDateRangeIndex,
         dataset,
         grid;
 
     for(n=0; n<divDateButtons.length; n++) {
         divDateButtons[n].onmousedown = _clickDateButton(n);
     }
-    
+    cmbStatType.onchange = function() {clickDateButton(curDateRangeIndex);};
+
     ajax = new Kodiak.Data.Ajax();
     dataset = new Kodiak.Data.Dataset();
     grid = new Kodiak.Controls.Table({
@@ -40,7 +44,7 @@ window.onload = function(){
         },
         columns: {
             Page: {
-                dataField: 'page_visited',
+                dataField: 'page',
                 sortable: true,
                 width: 390
             },
@@ -61,13 +65,17 @@ window.onload = function(){
 
     dataset.sort({field: 'uniqueVisitors', dir: 'DESC'});
 
-    clickDateButton(defaultDateRange);
+    cmbStatType.value = defaultStatType;
+    clickDateButton(defaultDateRangeIndex);
 
     function getStats(n) {
          ajax.request({
             url:    'api/stats.php',
             method: 'post',
-            parameters: {dateRange: dateHash[n]},
+            parameters: {
+                dateRange: dateHash[n],
+                statType: cmbStatType.value
+            },
             handler: getStatsHandler
         });    
     }
@@ -87,18 +95,17 @@ window.onload = function(){
 
     function clickDateButton(n) {
         var activeClass = 'clsActiveDateBtn';
-        if(!hasClass(divDateButtons[n], activeClass)) {
-            for(m=0; m<divDateButtons.length; m++) {
-                if(m == n) {
-                    addClass(divDateButtons[m], activeClass);
-                }else {
-                    removeClass(divDateButtons[m], activeClass);
-                }
+        for(m=0; m<divDateButtons.length; m++) {
+            if(m == n) {
+                addClass(divDateButtons[m], activeClass);
+            }else {
+                removeClass(divDateButtons[m], activeClass);
             }
-            getStats(n);
-            clearInterval(refreshTimer);
-            refreshTimer = setInterval(function() {getStats(n);}, updateInterval);
         }
+        curDateRangeIndex = n;
+        getStats(n);
+        clearInterval(refreshTimer);
+        refreshTimer = setInterval(function() {getStats(n);}, updateInterval);
     }
 
     function _clickDateButton(n) {

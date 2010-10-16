@@ -18,8 +18,8 @@
                 <div>All</div>
             </div>
             <select id="cmbStatType">
-                <option value="traffic" selected="selected">&nbsp;Traffic</option>
-                <option value="topReferring">&nbsp;Top Referring Sites</option>
+                <option value="page_visited" selected="selected">&nbsp;Traffic</option>
+                <option value="referring_site">&nbsp;Top Referring Sites</option>
             </select>
             <div id="divGrid"></div>
         </div>

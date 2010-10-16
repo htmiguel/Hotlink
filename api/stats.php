@@ -5,6 +5,15 @@
         return false;
     }
 
+    if(isset($_REQUEST['statType'])) {
+        $statType = $_REQUEST['statType'];
+        if($statType != "page_visited" && $statType != "referring_site") {
+            return false;
+        }
+    }else {
+        return false;
+    }
+
     require_once("../config.php");
 
     switch($dateRange) {
@@ -30,10 +39,10 @@
 
     $db = new SQLite3(DB_PATH . "hotlinks.db.sqlite");
 
-    $sql = "SELECT unique_visitors.page_visited, unique_visits, total_visits
-            FROM (SELECT page_visited, COUNT(client_ip) AS unique_visits FROM (SELECT page_visited, client_ip FROM visits" . $where . " GROUP BY page_visited, client_ip) GROUP BY page_visited) AS unique_visitors,
-                 (SELECT page_visited, COUNT(client_ip) AS total_visits FROM visits" . $where . " GROUP BY page_visited) AS total_visitors
-            WHERE unique_visitors.page_visited = total_visitors.page_visited";
+    $sql = "SELECT unique_visitors." . $statType . " AS page, unique_visits, total_visits
+            FROM (SELECT " . $statType . ", COUNT(client_ip) AS unique_visits FROM (SELECT " . $statType . ", client_ip FROM visits" . $where . " GROUP BY " . $statType . ", client_ip) GROUP BY " . $statType . ") AS unique_visitors,
+                 (SELECT " . $statType . ", COUNT(client_ip) AS total_visits FROM visits" . $where . " GROUP BY " . $statType . ") AS total_visitors
+            WHERE unique_visitors." . $statType . " = total_visitors." . $statType . "";
 
     $result = $db->query($sql);
 
@@ -44,7 +53,7 @@
         $uniqueTotal += $val['unique_visits'];
         $visitTotal += $val['total_visits'];
     }
-    array_push($resultArr, array("page_visited" => "<b>TOTAL:</b>", "unique_visits" => "<b>" . $uniqueTotal . "</b>", "total_visits" => "<b>" . $visitTotal . "</b>"));
+    array_push($resultArr, array("page" => "<b>TOTAL:</b>", "unique_visits" => "<b>" . $uniqueTotal . "</b>", "total_visits" => "<b>" . $visitTotal . "</b>"));
 
     echo json_encode($resultArr);
     
