@@ -6,7 +6,6 @@ body {
 
 #divMainWrapper {
     width: 940px;
-    height: 375px;
     padding: 10px 5px 10px 5px;
     background-color: #ECEBDB;
     margin: 0 auto;
@@ -53,10 +52,8 @@ body {
 }
 
 #divGrid {
-    overflow: auto;
     margin: 10px 5px 0 5px;
     background-color: #fff;
-    height: 235px;
     padding: 10px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
