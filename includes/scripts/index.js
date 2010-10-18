@@ -13,12 +13,14 @@ var Kodiak = {
     },
     defaultDateRangeIndex = 0,
     defaultStatType       = "page_visited",
-    updateInterval        = 15000,
+    updateInterval        = 30,
     refreshTimer;
 
 window.onload = function(){
     var divDateButtons = $('divTopBar').getElementsByTagName('div'),
         cmbStatType = $('cmbStatType'),
+        lblUniqueTotal = $('lblUniqueTotal'),
+        lblVisitTotal = $('lblVisitTotal'),
         n,
         curDateRangeIndex,
         dataset,
@@ -46,19 +48,32 @@ window.onload = function(){
             Page: {
                 dataField: 'page',
                 sortable: true,
-                width: 390
+                width: 557,
+                renderFn: function(data) {
+                    var href;
+                    if(data.val.page.match(/^http/)) {
+                        href = "";
+                    }else {
+                        href = appPath;
+                    }
+                    href += data.val.page;
+
+                    return "<a href='" + href + "'>" + data.val.page + "</a>";
+                }
             },
             Unique: {
                 title: 'Unique Visitors',
+                align: 'right',
                 dataField: 'unique_visits',
                 sortable: true,
-                width: 250
+                width: 180
             },
             Total: {
                 title: 'Total Visits',
+                align: 'right',
                 dataField: 'total_visits',
                 sortable: true,
-                width: 250
+                width: 140
             }
         }
     });
@@ -83,11 +98,14 @@ window.onload = function(){
     function getStatsHandler(obj) {
         if(obj.success) {
             var result = eval('(' + obj.response + ')');
+
             dataset.setData({
-                data: result,
-                alwaysOnBottom: {page_visited: '<b>TOTAL:</b>'},
+                data: result.data,
                 sortObj: {}
             });
+
+            lblUniqueTotal.innerHTML = result.unique_total;
+            lblVisitTotal.innerHTML = result.visit_total;
         }else {
             alert("There was an error retreiving stats.  Please try again later.");
         }
@@ -105,7 +123,7 @@ window.onload = function(){
         curDateRangeIndex = n;
         getStats(n);
         clearInterval(refreshTimer);
-        refreshTimer = setInterval(function() {getStats(n);}, updateInterval);
+        refreshTimer = setInterval(function() {getStats(n);}, (updateInterval * 1000));
     }
 
     function _clickDateButton(n) {

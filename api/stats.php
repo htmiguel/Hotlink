@@ -53,9 +53,8 @@
         $uniqueTotal += $val['unique_visits'];
         $visitTotal += $val['total_visits'];
     }
-    array_push($resultArr, array("page" => "<b>TOTAL:</b>", "unique_visits" => "<b>" . $uniqueTotal . "</b>", "total_visits" => "<b>" . $visitTotal . "</b>"));
 
-    echo json_encode($resultArr);
+    echo json_encode(array("unique_total" => $uniqueTotal, "visit_total" => $visitTotal, "data" => $resultArr));
     
     function getAllRows($result) {
         $resultArr = array();
