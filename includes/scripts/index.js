@@ -41,8 +41,8 @@ window.onload = function(){
         sortArrow: {
             img: 'includes/images/tblArrowSprite.png',
             size: {width: 14, height: 14},
-            up: {x: 0, y: 0},
-            down: {x: 0, y: -14}
+            up: {x: 0, y: -14},
+            down: {x: 0, y: 0}
         },
         columns: {
             Page: {
@@ -78,7 +78,7 @@ window.onload = function(){
         }
     });
 
-    dataset.sort({field: 'uniqueVisitors', dir: 'DESC'});
+    dataset.sort({field: 'unique_visits', dir: 'DESC'});
 
     cmbStatType.value = defaultStatType;
     clickDateButton(defaultDateRangeIndex);

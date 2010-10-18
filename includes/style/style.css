@@ -76,6 +76,10 @@ table {
     font-size: 20px;
 }
 
+table th {
+    background-color: #e0e0e0;
+}
+
 table th,td {
     padding: 5px;
     border: #e0e0e0 1px solid;
