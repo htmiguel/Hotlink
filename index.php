@@ -22,6 +22,7 @@
                 <div>This Month</div>
                 <div>This Year</div>
                 <div>All</div>
+                <div>Custom</div>
             </div>
             <select id="cmbStatType">
                 <option value="page_visited" selected="selected">&nbsp;Traffic</option>
@@ -31,7 +32,7 @@
             <div id="divStatusBar">
                 <table>
                     <tr>
-                        <td style="width: 557px;"><b>TOTAL</b></td>
+                        <td style="width: 558px;"><b>TOTAL</b></td>
                         <td style="width: 180px; text-align: right;"><b><label id="lblUniqueTotal"></label></b></td>
                         <td style="width: 140px; text-align: right;"><b><label id="lblVisitTotal"></label></b></td>
                     </tr>

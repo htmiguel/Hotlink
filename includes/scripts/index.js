@@ -48,7 +48,7 @@ window.onload = function(){
             Page: {
                 dataField: 'page',
                 sortable: true,
-                width: 557,
+                width: 558,
                 renderFn: function(data) {
                     var href;
                     if(data.val.page.match(/^http/)) {

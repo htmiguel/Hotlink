@@ -14,7 +14,7 @@ a:hover {
 }
 
 #divMainWrapper {
-    width: 940px;
+    width: 942px;
     padding: 10px 5px 10px 5px;
     background-color: #ECEBDB;
     margin: 0 auto;
@@ -28,7 +28,7 @@ a:hover {
 
 #divTopBar div {
     float: left;
-    width: 178px;
+    width: 147px;
     height: 70px;
     margin: 0 5px;
     color: #fff;

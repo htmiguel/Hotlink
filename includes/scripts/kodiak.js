@@ -113,15 +113,11 @@ Kodiak.Data.Dataset.prototype = {
         var util = new Kodiak.Util();
         this.data = [];
         this.alwaysOnTop = {};
-        this.alwaysOnBottom = {};
 
         util.clone(config.data, this.data);
 
         if(config.alwaysOnTop) {
             util.clone(config.alwaysOnTop, this.alwaysOnTop);
-        }
-        if(config.alwaysOnBottom) {
-            util.clone(config.alwaysOnBottom, this.alwaysOnBottom);
         }
 
         if(config.sortObj) {
@@ -193,20 +189,6 @@ Kodiak.Data.Dataset.prototype = {
                         break;
                     }else if(b[prop] == _this.alwaysOnTop[prop]) {
                         sortVal = 1;
-                        break;
-                    }
-                }
-            }
-
-            if(_this.alwaysOnBottom) {
-                for(prop in _this.alwaysOnBottom) {
-                    if(a[prop] == _this.alwaysOnBottom[prop] && b[prop] == _this.alwaysOnBottom[prop]) {
-                        sortVal = ((sortArr[0] < sortArr[1]) ? (-1+n) : (sortArr[0] > sortArr[1]) ? (1-n) : 0);                    
-                    }else if(a[prop] == _this.alwaysOnBottom[prop]) {
-                        sortVal = 1;
-                        break;
-                    }else if(b[prop] == _this.alwaysOnBottom[prop]) {
-                        sortVal = -1;
                         break;
                     }
                 }
