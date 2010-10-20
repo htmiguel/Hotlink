@@ -52,6 +52,11 @@ a:hover {
     background-color: #aaa !important;
 }
 
+.dateModalBtn {
+    -moz-border-radius: 5px 5px 0 0 !important;
+    -webkit-border-radius: 5px 5px 0 0 !important;
+}
+
 #cmbStatType {
     font-size: 20px;
     line-height: 30px;
@@ -91,4 +96,21 @@ table th,td {
     padding: 10px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
+}
+
+.modalWindow {
+    overflow: auto;
+    border: #aaa 8px solid;
+    width: 916px;
+    height: 180px;
+    color: #333;
+    background-color: #f6f6f6;
+    font-size: 12px;
+    -moz-border-radius: 5px 0 5px 5px;
+    -webkit-border-radius: 5px 0 5px 5px;
+    z-index: 100;
+}
+
+#divDateModal {
+    padding: 10px;
 }

@@ -606,3 +606,141 @@ Kodiak.Controls.Table.prototype = {
         this.data.sort({field: field, dir: 'toggle'});
     }
 };
+
+
+//*******************************************************************
+//***********************MODAL CLASS*********************************
+//*******************************************************************
+
+Kodiak.Controls.Modal = function(config) {
+    var _this = this;
+    this.util = new Kodiak.Util();
+
+    this.util.clone(config, this, {applyTo: 'skip'});
+    this.applyTo = config.applyTo;  //set this.applyTo by reference
+
+    Kodiak.Components[this.componentId] = this;
+    
+    if(this.applyTo) {
+        this.applyTo = this.util.toEl(this.applyTo);
+    }else {
+        alert("table: 'applyTo' property not defined.  Check documentation.");
+        return;
+    }
+
+    this._initModal();
+    this.applyTo.addEventListener('mousedown', function(e) {_this.toggleModal(e, _this); return false;}, false);
+
+    function redraw(scope) {
+        if(scope._modalActive) {
+            scope._setModalPosition(scope);
+        }
+    }
+
+    window.addEventListener('resize', function() {redraw(_this);}, false);
+};
+
+Kodiak.Controls.Modal.prototype = {
+
+    content:        '',
+    orientation:    'left',
+    modalClass:     '',
+    closeOnBlur:    false,
+    onBeforeShow:   function() {},
+    onShowComplete: function() {},
+    _isModal:       true,
+
+    toggleModal: function(e, scope) {
+        if(this._modalActive) {
+            scope.hide();
+        }else {
+            scope.show(e);
+        }
+    },
+
+    hide: function() {
+        this._modalEl.style.display = "none";    
+        this._modalActive = false;
+    },
+
+    show: function(e) {
+        var _this = this,
+        component,
+        key,
+        val;
+        
+        for(component in Kodiak.Components) {
+            if(Kodiak.Components[component]) {
+                key = component;
+                val = Kodiak.Components[key];
+                if(val._isModal && val != this) {
+                    val.hide();
+                }
+            }
+        }
+
+        this.onBeforeShow();
+        this._setModalPosition(this);
+        this._modalEl.style.display = "block";
+        this._modalActive = true;
+        this.onShowComplete();
+
+        function lostFocus(e) {
+            var coords = _this._findElPos(_this._modalEl);
+            if(!((e.clientX >= coords.left && e.clientX <= (coords.left + _this._modalEl.offsetWidth)) && (e.clientY >= coords.top && e.clientY <= (coords.top + _this._modalEl.offsetHeight)))) {
+                _this.hide();
+                this.removeEventListener('mousedown', lostFocus, false);
+            }
+        }
+
+        if(this.closeOnBlur) {
+            e.cancelBubble = true;
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            }
+            window.addEventListener('mousedown', lostFocus, false);
+        }
+    },
+
+    setContent: function(content) {
+        this._modalEl.innerHTML = content;
+    },
+
+    _initModal: function() {
+
+        var el = document.createElement('div');
+
+        el.className = this.modalClass;
+        el.style.position = "absolute";
+        el.style.visibility = "hidden";
+
+        document.body.appendChild(el);
+
+        this._modalEl = el;
+        this._modalDimensions = {width: this._modalEl.offsetWidth, height: this._modalEl.offsetHeight};
+
+        this.hide();
+        this._modalEl.style.visibility = "visible";
+        this.setContent(this.content);
+    },
+
+    _setModalPosition: function(scope) {
+        var coords = scope._findElPos(scope.applyTo);
+        if(scope.orientation == "left") {
+            scope._modalEl.style.left = coords.left + "px";
+        }else if(scope.orientation == "right") {
+            scope._modalEl.style.left = (coords.left - scope._modalDimensions.width + scope.applyTo.offsetWidth) + "px";
+        }
+        scope._modalEl.style.top = (coords.top + scope.applyTo.offsetHeight) + "px";
+    },
+
+    _findElPos: function(el) {
+        var pos = {left: 0, top: 0};
+        do{
+            pos.left += el.offsetLeft;
+            pos.top += el.offsetTop;
+            el = el.offsetParent;
+        }while(el);
+        return pos;
+    }
+};

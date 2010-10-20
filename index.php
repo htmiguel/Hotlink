@@ -39,5 +39,10 @@
                 </table>
             </div>
         </div>
+        <textarea id="txtDateModal" style="display: none;">
+            <div id="divDateModal">
+                Custom Date Modal
+            </div>
+        </textarea>
     </body>
 </html>

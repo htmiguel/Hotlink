@@ -9,7 +9,8 @@ var Kodiak = {
         1: "week",
         2: "month",
         3: "year",
-        4: "all"
+        4: "all",
+        5: "custom"
     },
     defaultDateRangeIndex = 0,
     defaultStatType       = "page_visited",
@@ -23,6 +24,8 @@ window.onload = function(){
         lblVisitTotal = $('lblVisitTotal'),
         n,
         curDateRangeIndex,
+        dateModal,
+        ajax,
         dataset,
         grid;
 
@@ -32,6 +35,18 @@ window.onload = function(){
     cmbStatType.onchange = function() {clickDateButton(curDateRangeIndex);};
 
     ajax = new Kodiak.Data.Ajax();
+
+    dateModal = new Kodiak.Controls.Modal({
+        applyTo:      divDateButtons[5],
+        componentId:  'dateModal',
+        modalClass:   'modalWindow',
+        orientation:  'right',
+        onBeforeShow: function() {
+            this.setContent($('txtDateModal').value);
+        },
+        onShowComplete: function() {}
+    });
+
     dataset = new Kodiak.Data.Dataset();
     grid = new Kodiak.Controls.Table({
         applyTo: 'divGrid',
@@ -96,7 +111,7 @@ window.onload = function(){
     }
 
     function getStatsHandler(obj) {
-        if(obj.success) {
+        if(obj.success && obj.response) {
             var result = eval('(' + obj.response + ')');
 
             dataset.setData({
@@ -112,14 +127,24 @@ window.onload = function(){
     }
 
     function clickDateButton(n) {
-        var activeClass = 'clsActiveDateBtn';
+        var activeClass = 'clsActiveDateBtn',
+            dateModalBtn = 'dateModalBtn';
+
         for(m=0; m<divDateButtons.length; m++) {
             if(m == n) {
                 addClass(divDateButtons[m], activeClass);
+                if(m == 5) {
+                    addClass(divDateButtons[m], dateModalBtn);
+                }
             }else {
                 removeClass(divDateButtons[m], activeClass);
+                if(m == 5) {
+                    removeClass(divDateButtons[m], dateModalBtn);
+                }
             }
         }
+        
+        dateModal.hide();
         curDateRangeIndex = n;
         getStats(n);
         clearInterval(refreshTimer);
