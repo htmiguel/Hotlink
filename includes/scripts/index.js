@@ -128,7 +128,8 @@ window.onload = function(){
 
     function clickDateButton(n) {
         var activeClass = 'clsActiveDateBtn',
-            dateModalBtn = 'dateModalBtn';
+            dateModalBtn = 'dateModalBtn',
+            m;
 
         for(m=0; m<divDateButtons.length; m++) {
             if(m == n) {

@@ -8,8 +8,21 @@
         <meta name="description" content="Hotlinks - Realtime web statistics" />
         <title>Hotlinks - Realtime web statistics</title>
         <link rel="stylesheet" href="includes/style/style.css" type="text/css" media="screen" />
-        <script src='includes/scripts/index.js'></script>
-        <script src='includes/scripts/kodiak.js'></script>
+        <?php
+            if(DEV) {
+                $dir = 'includes/scripts/';
+                $jsFileArr = file($dir . 'js.list');
+                $count = sizeof($jsFileArr);
+                for ($i=0; $i<$count; $i++) {
+                    $jsFileArr[$i] = preg_replace('/([\r\n])+/i', '', $jsFileArr[$i]);
+                    if(strlen($jsFileArr[$i])) {
+                        echo "<script src='" . $dir . $jsFileArr[$i] . "'></script>\n";
+                    }
+                }
+            }else {
+                echo "<script src='includes/scripts/script.js'></script>";
+            }
+        ?>
         <script type="text/javascript">
             var appPath = '<?php echo HOTLINKS_APP_PATH; ?>';
         </script>

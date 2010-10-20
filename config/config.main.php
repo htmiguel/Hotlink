@@ -4,7 +4,7 @@
     /***DEFINE WHETHER CODE IS IN A DEVELOPMENT ENVIRONMENT OR NOT***/
     /****************************************************************/
 
-    define("DEV", true);
+    define("DEV", false);
 
 
     /********************************************/
